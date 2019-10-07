@@ -10,12 +10,11 @@ export default function TripList({navigation}) {
 
         await AsyncStorage.setItem('viagemSelecionada', JSON.stringify(viagemSelecionada));
         
-        navigation.navigate('Viagem');
+        navigation.navigate('Trip');
     }
     function somaValores() {
 
         for (let i = 0; i < viagens.length; i++) {
-            console.log(viagens[i].valorTotalViagem)
             valorTotalGasto += viagens[i].valorTotalViagem;       
         }
     }
