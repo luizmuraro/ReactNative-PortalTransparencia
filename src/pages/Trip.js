@@ -6,8 +6,8 @@ export default function Trip() {
     const [pessoa, setPessoa] = useState('');
   
     useEffect(() => {
-        AsyncStorage.getItem('viagemSelecionada').then(viagemRonaldo => {
-            const viagemSelecionada = JSON.parse(viagemRonaldo);
+        AsyncStorage.getItem('viagemSelecionada').then(viagemStorage => {
+            const viagemSelecionada = JSON.parse(viagemStorage);
             setViagem(viagemSelecionada);
             setPessoa(viagemSelecionada.pessoa);
         })
