@@ -10,8 +10,11 @@ export default function Home({ navigation }) {
     async function handleSubmit() {
         const response = await api.get(`orgaos-siafi?descricao=${descricao}&pagina=1`);
 
-        // console.log(ronaldo)
           await AsyncStorage.setItem('orgao', JSON.stringify(response.data));
+          await AsyncStorage.setItem('descricao', descricao);
+          await AsyncStorage.setItem('pagina', "1");
+
+
          navigation.navigate('List');
     }
 

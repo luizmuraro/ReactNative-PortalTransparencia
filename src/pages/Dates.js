@@ -22,10 +22,19 @@ export default function Dates({ navigation }) {
         const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=1`);
 
         await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
+
+        await AsyncStorage.setItem('dataIdaDe', dataIdaDe);
+        await AsyncStorage.setItem('dataIdaAte', dataIdaAte);
+        await AsyncStorage.setItem('dataRetornoDe', dataRetornoDe);
+        await AsyncStorage.setItem('dataRetornoAte', dataRetornoAte);
+        await AsyncStorage.setItem('codigo', codigo);
+        await AsyncStorage.setItem('paginaTrip', "1");
+
+
          navigation.navigate('TripList');
         
     }
-
+  
     return(
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
     

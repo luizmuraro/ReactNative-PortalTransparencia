@@ -7,8 +7,8 @@ export default function Trip() {
     const [dimViagem, setDimViagem] = useState('');
   
     useEffect(() => {
-        AsyncStorage.getItem('viagemSelecionada').then(viagemRonaldo => {
-            const viagemSelecionada = JSON.parse(viagemRonaldo);
+        AsyncStorage.getItem('viagemSelecionada').then(viagemStorage => {
+            const viagemSelecionada = JSON.parse(viagemStorage);
             setViagem(viagemSelecionada);
             setPessoa(viagemSelecionada.pessoa);
             setDimViagem(viagemSelecionada.dimViagem)
