@@ -71,6 +71,9 @@ export default function List({navigation}) {
                     <TouchableOpacity onPress={() => handleSubmit(orgao.codigo)} key={ orgao.codigoDescricaoFormatado } style={styles.buttonList}>
                         <Text style={styles.buttonText}>{ orgao.codigoDescricaoFormatado }</Text>
                     </TouchableOpacity>)}
+                    <TouchableOpacity onPress={() => {navigation.navigate('Home')}} style={styles.button}>
+                        <Text style={styles.buttonText}>Voltar</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={nextPage} style={styles.button}>
                         <Text style={styles.buttonText}>Próxima</Text>
                     </TouchableOpacity>
@@ -123,5 +126,7 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 14,
+    
+    
     }
 });

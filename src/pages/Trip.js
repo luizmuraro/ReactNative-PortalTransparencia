@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View,AsyncStorage, ScrollView, SafeAreaView, Text, StyleSheet } from 'react-native';
+import { View,TouchableOpacity,AsyncStorage, ScrollView, SafeAreaView, Text, StyleSheet } from 'react-native';
 
 export default function Trip() {
     const [viagem, setViagem] = useState([]);
@@ -34,13 +34,20 @@ export default function Trip() {
                 <Text style={styles.label}>Valor total de taxas de agenciamento:</Text>
                 <Text>R${viagem.valorTotalTaxaAgenciamento}</Text>
                 <Text style={styles.label}>Valor total de multas:</Text>
+    
                 <Text>R${viagem.valorMulta}</Text>
                 <Text style={styles.label}>Valor total de diárias:</Text>
                 <Text>R${viagem.valorTotalDiarias}</Text>
                 <Text style={styles.label}>Valor total de passagens:</Text>
                 <Text>R${viagem.valorTotalPassagem}</Text>
                 <Text style={styles.label}>Valor total de devoluções:</Text>
-                <Text>R${viagem.valorTotalDevolucao}</Text>                
+                <Text>R${viagem.valorTotalDevolucao}</Text>    
+                <TouchableOpacity onPress={() => {navigation.navigate('TripList')}} style={styles.button}>
+                    <Text style={styles.buttonText}>Voltar</Text>
+                </TouchableOpacity>            
+                <TouchableOpacity onPress={() => {navigation.navigate('Home')}} style={styles.button}>
+                    <Text style={styles.buttonText}>Nova Consulta</Text>
+                </TouchableOpacity> 
             </ScrollView>
         </SafeAreaView>
     )

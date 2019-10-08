@@ -111,6 +111,9 @@ export default function TripList({navigation}) {
                         <Text style={styles.buttonTextTrip}>Data da Viagem: { viagem.dataInicioAfastamento } - {viagem.dataFimAfastamento}</Text>
                         <Text style={styles.buttonTextTrip}>Valor da viagem: R${ viagem.valorTotalViagem }</Text>
                     </TouchableOpacity>)}
+                    <TouchableOpacity onPress={() => {navigation.navigate('Dates')}} style={styles.button}>
+                        <Text style={styles.buttonText}>Voltar</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={nextPage} style={styles.button}>
                         <Text style={styles.buttonText}>Próxima</Text>
                     </TouchableOpacity>

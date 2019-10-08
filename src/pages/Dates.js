@@ -75,6 +75,9 @@ export default function Dates({ navigation }) {
                     value={dataRetornoAte}
                     onChangeText={setDataRetornoAte}
                 />
+                <TouchableOpacity onPress={() => {navigation.navigate('List')}} style={styles.button}>
+                        <Text style={styles.buttonText}>Voltar</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={handleSubmit} style={styles.button}>
                     <Text style={styles.buttonText}>Buscar</Text>
                 </TouchableOpacity>
