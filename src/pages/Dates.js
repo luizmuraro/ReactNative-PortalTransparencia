@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View,AsyncStorage, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 
 import api from '../services/api';
 
@@ -40,41 +41,93 @@ export default function Dates({ navigation }) {
     
             <View style={styles.form}>
                 <Text style={styles.label}>Data de ida a partir de: *</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="(DD/MM/AAAA)"
-                    placeholderTextColor="#999"
-                    autoCorrect={false}
-                    value={dataIdaDe}
-                    onChangeText={setDataIdaDe}
-                />
+                <DatePicker
+          style={{width: 200}}
+          date={dataIdaDe} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="select date"
+          format="DD/MM/YYYY"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => {setDataIdaDe(date)}}
+        />
                 <Text style={styles.label}>Data de ida até: *</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="(DD/MM/AAAA)"
-                    placeholderTextColor="#999"
-                    autoCorrect={false}
-                    value={dataIdaAte}
-                    onChangeText={setDataIdaAte}
-                />
+                <DatePicker
+          style={{width: 200}}
+          date={dataIdaAte} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="select date"
+          format="DD/MM/YYYY"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => {setDataIdaAte(date)}}
+        />
                 <Text style={styles.label}>Data de retorno a partir de: *</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="(DD/MM/AAAA)"
-                    placeholderTextColor="#999"
-                    autoCorrect={false}
-                    value={dataRetornoDe}
-                    onChangeText={setDataRetornoDe}
-                />
+                <DatePicker
+          style={{width: 200}}
+          date={dataRetornoDe} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="select date"
+          format="DD/MM/YYYY"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => {setDataRetornoDe(date)}}
+        />
                 <Text style={styles.label}>Data de retorno a partir de: *</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="(DD/MM/AAAA)"
-                    placeholderTextColor="#999"
-                    autoCorrect={false}
-                    value={dataRetornoAte}
-                    onChangeText={setDataRetornoAte}
-                />
+                <DatePicker
+          style={{width: 200}}
+          date={dataRetornoAte} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="select date"
+          format="DD/MM/YYYY"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => {setDataRetornoAte(date)}}
+        />
                 <TouchableOpacity onPress={() => {navigation.navigate('List')}} style={styles.button}>
                         <Text style={styles.buttonText}>Voltar</Text>
                 </TouchableOpacity>
@@ -121,6 +174,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
+        marginBottom: 5
     },
 
     buttonText: {
