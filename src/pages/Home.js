@@ -17,7 +17,6 @@ export default function Home({ navigation }) {
 
     return(
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
-    
             <View style={styles.form}>
                 <Text style={styles.label}>ÓRGÃO: *</Text>
                 <TextInput

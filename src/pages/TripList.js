@@ -30,16 +30,47 @@ export default function TripList({navigation}) {
  
     return (
         
-        <SafeAreaView>
-            <ScrollView>
-                <Text>Valor Total Gasto em Viagens pelo Orgão: R${valorTotalGasto}</Text>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.label}>
+                <Text style={styles.label}>Valor Total Gasto em Viagens pelo Orgão: R${valorTotalGasto}</Text>
                 {viagens.map(viagem =>
-                    <TouchableOpacity onPress={() => handleSubmit(viagem)} key={ viagem.id }>
-                        <Text>Beneficiario: { viagem.pessoa.nome }</Text>
-                        <Text>Data da Viagem: { viagem.dataInicioAfastamento } - {viagem.dataFimAfastamento}</Text>
-                        <Text>Valor da viagem: R${ viagem.valorTotalViagem }</Text>
+                    <TouchableOpacity onPress={() => handleSubmit(viagem)} key={ viagem.id } style={styles.button}>
+                        <Text style={styles.buttonText}>Beneficiario: { viagem.pessoa.nome }</Text>
+                        <Text style={styles.buttonText}>Data da Viagem: { viagem.dataInicioAfastamento } - {viagem.dataFimAfastamento}</Text>
+                        <Text style={styles.buttonText}>Valor da viagem: R${ viagem.valorTotalViagem }</Text>
                     </TouchableOpacity>)}
             </ScrollView>
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    label: {
+        fontWeight: 'bold',
+        color: '#444',
+        marginBottom: 8,
+        marginTop: 4,
+        fontSize: 14,
+    },
+
+    button: {
+        height: 70,
+        backgroundColor: '#f05a5b',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 2,
+        marginBottom: 8,
+    },
+
+    buttonText: {
+        color: '#FFF',
+        fontWeight: 'bold',
+        fontSize: 14,
+    }
+});
