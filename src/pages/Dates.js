@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { View,AsyncStorage, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View,AsyncStorage, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
 
 import api from '../services/api';
 
+
+
+
 export default function Dates({ navigation }) {
+
     const [dataIdaDe, setDataIdaDe] = useState('');
     const [dataIdaAte, setDataIdaAte] = useState('');
     const [dataRetornoDe, setDataRetornoDe] = useState('');
@@ -20,20 +25,33 @@ export default function Dates({ navigation }) {
  
 
     async function handleSubmit() {
-        const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=1`);
+        const formato = 'DD/MM/YYYY'
+        let dataIdaDeSelecionada = moment(dataIdaDe, formato);
+        let dataIdaAteSelecionada = moment(dataIdaAte, formato);
+        let dataRetornoDeSelecionada = moment(dataRetornoDe, formato);
+        let dataRetornoAteSelecionada = moment(dataRetornoAte, formato);
 
-        await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
-
-        await AsyncStorage.setItem('dataIdaDe', dataIdaDe);
-        await AsyncStorage.setItem('dataIdaAte', dataIdaAte);
-        await AsyncStorage.setItem('dataRetornoDe', dataRetornoDe);
-        await AsyncStorage.setItem('dataRetornoAte', dataRetornoAte);
-        await AsyncStorage.setItem('codigo', codigo);
-        await AsyncStorage.setItem('paginaTrip', "1");
-
-
-         navigation.navigate('TripList');
+        if (dataRetornoAteSelecionada.diff(dataIdaDeSelecionada, 'days') > 30 || dataIdaAteSelecionada.diff(dataIdaDeSelecionada, 'days') > 30 ||
+            dataRetornoAteSelecionada.diff(dataRetornoDeSelecionada, 'days') > 30 ) {
+                
+            Alert.alert('Data Invalida', 'Período entre datas não pode ser maior que 1 mês')            
+        } else if  (dataRetornoAteSelecionada.diff(dataIdaDeSelecionada, 'days') < 0 || dataIdaAteSelecionada.diff(dataIdaDeSelecionada, 'days') < 0                || dataRetornoAteSelecionada.diff(dataRetornoDeSelecionada, 'days') < 0 ) {
+            Alert.alert('Data Invalida', 'Data de ida não pode ser inferior à data de volta')
+            
+        } else {
         
+            const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=1`);
+
+            await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
+            await AsyncStorage.setItem('dataIdaDe', dataIdaDe);
+            await AsyncStorage.setItem('dataIdaAte', dataIdaAte);
+            await AsyncStorage.setItem('dataRetornoDe', dataRetornoDe);
+            await AsyncStorage.setItem('dataRetornoAte', dataRetornoAte);
+            await AsyncStorage.setItem('codigo', codigo);
+            await AsyncStorage.setItem('paginaTrip', "1");
+
+            navigation.navigate('TripList');
+        }
     }
   
     return(
@@ -106,7 +124,7 @@ export default function Dates({ navigation }) {
           }}
           onDateChange={(date) => {setDataRetornoDe(date)}}
         />
-                <Text style={styles.label}>Data de retorno a partir de: *</Text>
+                <Text style={styles.label}>Data de retorno até: *</Text>
                 <DatePicker
           style={{width: 200}}
           date={dataRetornoAte} //initial date from state
@@ -128,11 +146,12 @@ export default function Dates({ navigation }) {
           }}
           onDateChange={(date) => {setDataRetornoAte(date)}}
         />
-                <TouchableOpacity onPress={() => {navigation.navigate('List')}} style={styles.button}>
-                        <Text style={styles.buttonText}>Voltar</Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={handleSubmit} style={styles.button}>
                     <Text style={styles.buttonText}>Buscar</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => {navigation.navigate('List')}} style={styles.button}>
+                        <Text style={styles.buttonText}>Voltar</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
@@ -174,7 +193,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
-        marginBottom: 5
+        marginBottom: 5,
+        marginTop: 15,
     },
 
     buttonText: {
