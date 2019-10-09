@@ -9,11 +9,11 @@ import Trip from './pages/Trip';
 const Routes = createAppContainer(
     createSwitchNavigator({
         
-        Home,
         List,
-        Dates,
-        TripList,
         Trip,
+        TripList,
+        Dates,
+        Home,
         
     })
 );

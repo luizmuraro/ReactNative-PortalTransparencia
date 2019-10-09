@@ -69,16 +69,18 @@ export default function List({navigation}) {
             <Text style={styles.label}>Selecione o órgão desejado:</Text>
                 {orgaos.map(orgao =>
                     <TouchableOpacity onPress={() => handleSubmit(orgao.codigo)} key={ orgao.codigoDescricaoFormatado } style={styles.buttonList}>
-                        <Text style={styles.buttonText}>{ orgao.codigoDescricaoFormatado }</Text>
+                        <Text style={styles.buttonListText}>{ orgao.codigoDescricaoFormatado }</Text>
                     </TouchableOpacity>)}
+                    <View style={styles.viewButton}>
+                    <TouchableOpacity onPress={previousPage} style={styles.buttonPagina}>
+                        <Text style={styles.buttonPaginaText}>Anterior</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={nextPage} style={styles.buttonPagina}>
+                        <Text style={styles.buttonPaginaText}>Próxima</Text>
+                    </TouchableOpacity>
+                    </View>
                     <TouchableOpacity onPress={() => {navigation.navigate('Home')}} style={styles.button}>
                         <Text style={styles.buttonText}>Voltar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={nextPage} style={styles.button}>
-                        <Text style={styles.buttonText}>Próxima</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={previousPage} style={styles.button}>
-                        <Text style={styles.buttonText}>Anterior</Text>
                     </TouchableOpacity>
                 </ScrollView>
         </SafeAreaView>
@@ -94,21 +96,23 @@ const styles = StyleSheet.create({
 
     label: {
         fontWeight: 'bold',
-        color: '#444',
+        color: '#f05a5b',
         marginBottom: 8,
-
         marginTop: 4,
         fontSize: 16,
     },
 
     buttonList: {
         height: 70,
-        backgroundColor: '#f05a5b',
+        backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 2,
+        borderRadius: 4,
         marginTop: 2,
+        marginHorizontal: 4,
         marginBottom: 6,
+        borderWidth: 2,
+        borderColor: '#f05a5b'
 
     },
 
@@ -120,13 +124,45 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         marginTop: 2,
         marginBottom: 6,
+        marginHorizontal: 4,
+    },
+
+    buttonPagina: {
+        height: 42,
+        width: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 2,
+        marginHorizontal: 6,
+    },
+
+    buttonListText: {
+        color: '#f05a5b',
+        fontSize: 14,
     },
 
     buttonText: {
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 14,
-    
-    
+    },
+
+    buttonPaginaText: {
+        color: '#f05a5b',
+        fontWeight: 'bold',
+        fontSize: 14,
+    },
+
+    viewButton: {
+        height: 42,
+        flex: 1,
+        flexDirection: 'row',
+        marginHorizontal: 4,
+        borderRadius: 2,
+        marginTop: 2,
+        marginBottom: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
+
 });
