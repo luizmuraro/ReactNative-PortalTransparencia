@@ -10,9 +10,9 @@ const Routes = createAppContainer(
     createSwitchNavigator({
         
         Home,
-        List,
         Dates,
         TripList,
+        List,
         Trip,
         
     })

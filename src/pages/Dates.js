@@ -10,10 +10,10 @@ import api from '../services/api';
 
 export default function Dates({ navigation }) {
 
-    const [dataIdaDe, setDataIdaDe] = useState('');
-    const [dataIdaAte, setDataIdaAte] = useState('');
-    const [dataRetornoDe, setDataRetornoDe] = useState('');
-    const [dataRetornoAte, setDataRetornoAte] = useState('');
+    const [dataIdaDe, setDataIdaDe] = useState('01/04/2019');
+    const [dataIdaAte, setDataIdaAte] = useState('30/04/2019');
+    const [dataRetornoDe, setDataRetornoDe] = useState('01/04/2019');
+    const [dataRetornoAte, setDataRetornoAte] = useState('30/04/2019');
     const [codigo, setCodigo] = useState('');
 
     useEffect(() => {

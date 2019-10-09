@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View,AsyncStorage, ScrollView, KeyboardAvoidingView,SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Alert, AsyncStorage, ScrollView, KeyboardAvoidingView,SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 import api from '../services/api';
 
@@ -10,11 +10,10 @@ export default function TripList({navigation}) {
     const [dataRetornoAte, setDataRetornoAte] = useState('');
     const [codigo, setCodigo] = useState('');
     const [paginaTrip, setPaginaTrip] = useState('');
-
+    const [total, setTotal] = useState(0);
 
     const [viagens, setViagens] = useState([]);
-     valorTotalGasto = 0;
-
+    let valorTotalGasto = 0;
     async function handleSubmit(viagemSelecionada) {
 
         await AsyncStorage.setItem('viagemSelecionada', JSON.stringify(viagemSelecionada));
@@ -33,25 +32,48 @@ export default function TripList({navigation}) {
 
         await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
         setViagens(response.data)
-
+        if (proxPag == 2) {
+        await AsyncStorage.getItem('valorTotal').then(totalValue => {
+            let floatTotal = parseFloat(totalValue) + valorTotalGasto;
+            async () => {await AsyncStorage.setItem('valorFinal', String(floatTotal))}
+            setTotal(floatTotal);
+        })
+        
+        
+        }
+        if(proxPag > 2) {
+            await AsyncStorage.getItem('valorTotal').then(valorAtual => {
+                setTotal(parseFloat(valorAtual) + total)
+            })
+        }
     }
 
     async function previousPage() {
+        
         let paginacao = parseInt(paginaTrip);
         let pagAnterior = paginacao - 1;
-        const pagString = String(pagAnterior);
-        await AsyncStorage.setItem('paginaTrip', pagString)
-        setPaginaTrip(pagString)
+        if (pagAnterior <= 0) {
+            Alert.alert('Não existe página anterior')
+        } else {
+            const pagString = String(pagAnterior);
+            await AsyncStorage.setItem('paginaTrip', pagString)
+            setPaginaTrip(pagString)
+        
+            const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=${pagString}`);
 
-        const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=${pagString}`);
-
-        await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
-        setViagens(response.data)
+            await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
+            setViagens(response.data)
+     }
+    
     }
-    function somaValores() {
-
+    async function somaValores() {
+     
         for (let i = 0; i < viagens.length; i++) {
             valorTotalGasto += viagens[i].valorTotalViagem;       
+        }
+        await AsyncStorage.setItem('valorTotal', String(valorTotalGasto));
+        if (paginaTrip == '1') {
+            setTotal(valorTotalGasto);
         }
     }
 
@@ -105,6 +127,8 @@ export default function TripList({navigation}) {
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.label}>
                 <Text style={styles.label}>Valor Total Gasto em Viagens pelo Orgão: R${valorTotalGasto}</Text>
+                <Text style={styles.label}>Valor Total Gasto em Viagens pelo Orgão: R${total}</Text>
+
                 {viagens.map(viagem =>
                     <TouchableOpacity onPress={() => handleSubmit(viagem)} key={ viagem.id } style={styles.buttonsTrip}>
                         <Text style={styles.buttonTextTrip}>Beneficiario: { viagem.pessoa.nome }</Text>

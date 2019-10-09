@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View,AsyncStorage, ScrollView, SafeAreaView, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Alert, AsyncStorage, ScrollView, SafeAreaView, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import api from '../services/api';
 
@@ -52,13 +52,18 @@ export default function List({navigation}) {
     async function previousPage() {
         let paginacao = parseInt(pagina);
         let pagAnterior = paginacao - 1;
-        const pagString = String(pagAnterior);
-        await AsyncStorage.setItem('pagina', pagString)
-        setPagina(pagString)
-        const response = await api.get(`orgaos-siafi?descricao=${descricao}&pagina=${pagString}`);
+        if (pagAnterior <= 0){
+            Alert.alert('Não existe página anterior')
+        } else {
+            const pagString = String(pagAnterior);
+            await AsyncStorage.setItem('pagina', pagString)
+            setPagina(pagString)
 
-        await AsyncStorage.setItem('orgao', JSON.stringify(response.data));
-        setOrgaos(response.data)
+            const response = await api.get(`orgaos-siafi?descricao=${descricao}&pagina=${pagString}`);
+
+            await AsyncStorage.setItem('orgao', JSON.stringify(response.data));
+            setOrgaos(response.data)
+        }
     }
     
     
