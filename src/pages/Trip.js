@@ -18,7 +18,7 @@ export default function Trip({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView style={styles.view}>
                 <Text style={styles.label}>Nome do beneficiário:</Text>
                 <Text>{pessoa.nome}</Text>
                 <Text style={styles.label}>Motivo da viagem:</Text>
@@ -41,13 +41,15 @@ export default function Trip({navigation}) {
                 <Text style={styles.label}>Valor total de passagens:</Text>
                 <Text>R${viagem.valorTotalPassagem}</Text>
                 <Text style={styles.label}>Valor total de devoluções:</Text>
-                <Text>R${viagem.valorTotalDevolucao}</Text>    
+                <Text>R${viagem.valorTotalDevolucao}</Text>
+                <View style={styles.viewButton}>  
                 <TouchableOpacity onPress={() => {navigation.navigate('TripList')}} style={styles.button}>
                     <Text style={styles.buttonText}>Voltar</Text>
                 </TouchableOpacity>            
                 <TouchableOpacity onPress={() => {navigation.navigate('Home')}} style={styles.button}>
                     <Text style={styles.buttonText}>Nova Consulta</Text>
-                </TouchableOpacity> 
+                </TouchableOpacity>
+                </View> 
             </ScrollView>
         </SafeAreaView>
     )
@@ -57,8 +59,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f05a5b',
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 20,
+    },
+
+    view: {
+        borderRadius: 4,
+        marginHorizontal: 6
     },
 
     label: {
@@ -70,18 +76,31 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        height: 70,
+        height: 42,
+        width: 150,
         backgroundColor: '#f05a5b',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
-        marginTop: 2,
-        marginBottom: 6,
+        marginHorizontal: 6,
+        borderWidth:2,
+        borderColor: '#FFF'
     },
 
     buttonText: {
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 14,
+    },
+    viewButton: {
+        height: 42,
+        flex: 1,
+        flexDirection: 'row',
+        marginHorizontal: 4,
+        borderRadius: 2,
+        marginTop: 6,
+        marginBottom: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });

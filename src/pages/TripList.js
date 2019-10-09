@@ -5,6 +5,7 @@ import api from '../services/api';
 
 export default function TripList({navigation}) {
     const [dataIdaDe, setDataIdaDe] = useState('');
+    const [valorViagens, setValorViagens] = useState('');
     const [dataIdaAte, setDataIdaAte] = useState('');
     const [dataRetornoDe, setDataRetornoDe] = useState('');
     const [dataRetornoAte, setDataRetornoAte] = useState('');
@@ -82,7 +83,14 @@ export default function TripList({navigation}) {
         AsyncStorage.getItem('viagens').then(viagem => {
             const viagemList = JSON.parse(viagem);
             setViagens(viagemList)
+
         })
+    }, []);
+    useEffect(() => {
+        AsyncStorage.getItem('valorViagens').then(valorViagens => {
+            setValorViagens(valorViagens);
+        })
+    
     }, []);
     useEffect(() => {
         AsyncStorage.getItem('dataIdaDe').then(dataIdaDe => {
@@ -126,23 +134,24 @@ export default function TripList({navigation}) {
         
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.label}>
-                <Text style={styles.label}>Valor Total Gasto em Viagens pelo Orgão: R${valorTotalGasto}</Text>
                 <Text style={styles.label}>Valor Total Gasto em Viagens pelo Orgão: R${total}</Text>
 
                 {viagens.map(viagem =>
-                    <TouchableOpacity onPress={() => handleSubmit(viagem)} key={ viagem.id } style={styles.buttonsTrip}>
-                        <Text style={styles.buttonTextTrip}>Beneficiario: { viagem.pessoa.nome }</Text>
-                        <Text style={styles.buttonTextTrip}>Data da Viagem: { viagem.dataInicioAfastamento } - {viagem.dataFimAfastamento}</Text>
-                        <Text style={styles.buttonTextTrip}>Valor da viagem: R${ viagem.valorTotalViagem }</Text>
+                    <TouchableOpacity onPress={() => handleSubmit(viagem)} key={ viagem.id } style={styles.buttonList}>
+                        <Text style={styles.buttonListText}>Beneficiario: { viagem.pessoa.nome }</Text>
+                        <Text style={styles.buttonListText}>Data da Viagem: { viagem.dataInicioAfastamento } - {viagem.dataFimAfastamento}</Text>
+                        <Text style={styles.buttonListText}>Valor da viagem: R${ viagem.valorTotalViagem }</Text>
                     </TouchableOpacity>)}
+                    <View style={styles.viewButton}>
+                    <TouchableOpacity onPress={previousPage} style={styles.buttonPagina}>
+                        <Text style={styles.buttonPaginaText}>Anterior</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={nextPage} style={styles.buttonPagina}>
+                        <Text style={styles.buttonPaginaText}>Próxima</Text>
+                    </TouchableOpacity>
+                    </View>
                     <TouchableOpacity onPress={() => {navigation.navigate('Dates')}} style={styles.button}>
                         <Text style={styles.buttonText}>Voltar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={nextPage} style={styles.button}>
-                        <Text style={styles.buttonText}>Próxima</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={previousPage} style={styles.button}>
-                        <Text style={styles.buttonText}>Anterior</Text>
                     </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
@@ -153,25 +162,30 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 20,
     },
 
     label: {
         fontWeight: 'bold',
-        color: '#444',
+        color: '#f05a5b',
         marginBottom: 8,
         marginTop: 4,
-        fontSize: 14,
+        fontSize: 16,
     },
 
-    buttonsTrip: {
+    buttonList: {
         height: 70,
-        backgroundColor: '#f05a5b',
+        backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 2,
-        marginBottom: 6,
+        borderRadius: 4,
         marginTop: 2,
+        marginHorizontal: 4,
+        marginBottom: 6,
+        borderWidth: 2,
+        borderColor: '#f05a5b'
+
     },
 
     button: {
@@ -180,18 +194,47 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
-        marginBottom: 8,
+        marginTop: 2,
+        marginBottom: 6,
+        marginHorizontal: 4,
+    },
+
+    buttonPagina: {
+        height: 42,
+        width: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 2,
+        marginHorizontal: 6,
+    },
+
+    buttonListText: {
+        color: '#f05a5b',
+        fontSize: 14,
     },
 
     buttonText: {
         color: '#FFF',
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 14,
     },
 
-    buttonTextTrip: {
-        color: '#FFF',
+    buttonPaginaText: {
+        color: '#f05a5b',
         fontWeight: 'bold',
         fontSize: 14,
+    },
+
+    viewButton: {
+        height: 42,
+        flex: 1,
+        flexDirection: 'row',
+        marginHorizontal: 4,
+        borderRadius: 2,
+        marginTop: 2,
+        marginBottom: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
+
 });

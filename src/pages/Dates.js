@@ -61,11 +61,13 @@ export default function Dates({ navigation }) {
   
     return(
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
+
+        <Text style={styles.labelTitle}>Selecione as datas:</Text>
     
             <View style={styles.form}>
                 <Text style={styles.label}>Data de ida a partir de: *</Text>
                 <DatePicker 
-          style={{width: 200}}
+          style={{width: 290}}
           date={dataIdaDe} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -77,17 +79,17 @@ export default function Dates({ navigation }) {
               position: 'absolute',
               left: 0,
               top: 4,
-              marginLeft: 0
+              marginLeft: 6
             },
             dateInput: {
-              marginLeft: 36
+              marginLeft: 48,
             }
           }}
           onDateChange={(date) => {setDataIdaDe(date)}}
         />
                 <Text style={styles.label}>Data de ida até: *</Text>
                 <DatePicker
-          style={{width: 200}}
+          style={{width: 290}}
           date={dataIdaAte} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -99,17 +101,17 @@ export default function Dates({ navigation }) {
               position: 'absolute',
               left: 0,
               top: 4,
-              marginLeft: 0
+              marginLeft: 6
             },
             dateInput: {
-              marginLeft: 36
+              marginLeft: 48
             }
           }}
           onDateChange={(date) => {setDataIdaAte(date)}}
         />
                 <Text style={styles.label}>Data de retorno a partir de: *</Text>
                 <DatePicker
-          style={{width: 200}}
+          style={{width: 290}}
           date={dataRetornoDe} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -121,17 +123,17 @@ export default function Dates({ navigation }) {
               position: 'absolute',
               left: 0,
               top: 4,
-              marginLeft: 0
+              marginLeft: 6
             },
             dateInput: {
-              marginLeft: 36
+              marginLeft: 48
             }
           }}
           onDateChange={(date) => {setDataRetornoDe(date)}}
         />
                 <Text style={styles.label}>Data de retorno até: *</Text>
                 <DatePicker
-          style={{width: 200}}
+          style={{width: 290}}
           date={dataRetornoAte} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -143,10 +145,10 @@ export default function Dates({ navigation }) {
               position: 'absolute',
               left: 0,
               top: 4,
-              marginLeft: 0
+              marginLeft: 6
             },
             dateInput: {
-              marginLeft: 36
+              marginLeft: 48
             }
           }}
           onDateChange={(date) => {setDataRetornoAte(date)}}
@@ -176,10 +178,19 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
 
+    labelTitle: {
+        fontWeight: 'bold',
+        color: '#f05a5b',
+        marginBottom: 8,
+        marginTop: 8,
+        fontSize: 18
+    },
+
     label: {
         fontWeight: 'bold',
         color: '#444',
         marginBottom: 8,
+        marginTop: 8
     },
 
     input: {
@@ -198,8 +209,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
-        marginBottom: 5,
-        marginTop: 15,
+        marginTop: 25,
     },
 
     buttonText: {
