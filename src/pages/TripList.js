@@ -64,7 +64,9 @@ export default function TripList({navigation}) {
 
             await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
             setViagens(response.data)
-     }
+            
+            setTotal(total - valorTotalGasto)
+        }
     
     }
     async function somaValores() {
