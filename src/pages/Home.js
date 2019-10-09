@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View,AsyncStorage, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View,AsyncStorage, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import api from '../services/api';
 
 export default function Home({ navigation }) {
@@ -10,18 +10,24 @@ export default function Home({ navigation }) {
     async function handleSubmit() {
         const response = await api.get(`orgaos-siafi?descricao=${descricao}&pagina=1`);
 
-          await AsyncStorage.setItem('orgao', JSON.stringify(response.data));
+        const stringResponse = JSON.stringify(response.data);
+
+        if (stringResponse == '[]'){
+            Alert.alert('Nenhum orgão encontrado!')
+        } else {
+          await AsyncStorage.setItem('orgao', stringResponse);
           await AsyncStorage.setItem('descricao', descricao);
           await AsyncStorage.setItem('pagina', "1");
 
 
          navigation.navigate('List');
+        }
     }
 
     return(
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <View style={styles.form}>
-                <Text style={styles.label}>ÓRGÃO: *</Text>
+                <Text style={styles.label}>ÓRGÃO:</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Nome/Descrição do órgão"

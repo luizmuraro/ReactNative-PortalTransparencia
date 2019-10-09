@@ -31,8 +31,9 @@ export default function Dates({ navigation }) {
         let dataRetornoDeSelecionada = moment(dataRetornoDe, formato);
         let dataRetornoAteSelecionada = moment(dataRetornoAte, formato);
 
-        if (dataRetornoAteSelecionada.diff(dataIdaDeSelecionada, 'days') > 30 || dataIdaAteSelecionada.diff(dataIdaDeSelecionada, 'days') > 30 ||
-            dataRetornoAteSelecionada.diff(dataRetornoDeSelecionada, 'days') > 30 ) {
+        if (dataIdaDe == '' || dataIdaAte == '' || dataRetornoDe == '' || dataRetornoAte == ''){
+            Alert.alert('Data Invalida', 'Todos os campos devem ser preenchidos')
+        } else if (dataRetornoAteSelecionada.diff(dataIdaDeSelecionada, 'days') > 30 || dataIdaAteSelecionada.diff(dataIdaDeSelecionada, 'days') >              30 || dataRetornoAteSelecionada.diff(dataRetornoDeSelecionada, 'days') > 30 ) {
                 
             Alert.alert('Data Invalida', 'Período entre datas não pode ser maior que 1 mês')            
         } else if  (dataRetornoAteSelecionada.diff(dataIdaDeSelecionada, 'days') < 0 || dataIdaAteSelecionada.diff(dataIdaDeSelecionada, 'days') < 0                || dataRetornoAteSelecionada.diff(dataRetornoDeSelecionada, 'days') < 0 ) {
@@ -41,16 +42,20 @@ export default function Dates({ navigation }) {
         } else {
         
             const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=1`);
+            const responseString = JSON.stringify(response.data);
+            if (responseString == '[]'){
+                Alert.alert('Nenhuma viagem encontrada');
+            } else { 
+                await AsyncStorage.setItem('viagens', responseString);
+                await AsyncStorage.setItem('dataIdaDe', dataIdaDe);
+                await AsyncStorage.setItem('dataIdaAte', dataIdaAte);
+                await AsyncStorage.setItem('dataRetornoDe', dataRetornoDe);
+                await AsyncStorage.setItem('dataRetornoAte', dataRetornoAte);
+                await AsyncStorage.setItem('codigo', codigo);
+                await AsyncStorage.setItem('paginaTrip', "1");
 
-            await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
-            await AsyncStorage.setItem('dataIdaDe', dataIdaDe);
-            await AsyncStorage.setItem('dataIdaAte', dataIdaAte);
-            await AsyncStorage.setItem('dataRetornoDe', dataRetornoDe);
-            await AsyncStorage.setItem('dataRetornoAte', dataRetornoAte);
-            await AsyncStorage.setItem('codigo', codigo);
-            await AsyncStorage.setItem('paginaTrip', "1");
-
-            navigation.navigate('TripList');
+                navigation.navigate('TripList');
+            }
         }
     }
   
@@ -59,7 +64,7 @@ export default function Dates({ navigation }) {
     
             <View style={styles.form}>
                 <Text style={styles.label}>Data de ida a partir de: *</Text>
-                <DatePicker
+                <DatePicker 
           style={{width: 200}}
           date={dataIdaDe} //initial date from state
           mode="date" //The enum of date, datetime and time

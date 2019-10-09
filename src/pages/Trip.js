@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View,TouchableOpacity,AsyncStorage, ScrollView, SafeAreaView, Text, StyleSheet } from 'react-native';
 
-export default function Trip() {
+export default function Trip({navigation}) {
     const [viagem, setViagem] = useState([]);
     const [pessoa, setPessoa] = useState('');
     const [dimViagem, setDimViagem] = useState('');
