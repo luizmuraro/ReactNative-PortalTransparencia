@@ -30,7 +30,13 @@ export default function TripList({navigation}) {
         setPaginaTrip(pagString)
 
         const response = await api.get(`viagens?dataIdaDe=${dataIdaDe}&dataIdaAte=${dataIdaAte}&dataRetornoDe=${dataRetornoDe}&dataRetornoAte=${dataRetornoAte}&codigoOrgao=${codigo}&pagina=${pagString}`);
-
+        const stringResponse = JSON.stringify(response.data);
+        
+        if (stringResponse == '[]') {
+            Alert.alert('Não foram achados outras viagens!')
+        } else {
+            
+        
         await AsyncStorage.setItem('viagens', JSON.stringify(response.data));
         setViagens(response.data)
         if (proxPag == 2) {
@@ -48,6 +54,7 @@ export default function TripList({navigation}) {
             })
         }
     }
+        }
 
     async function previousPage() {
         
