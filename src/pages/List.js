@@ -43,10 +43,13 @@ export default function List({navigation}) {
         await AsyncStorage.setItem('pagina', pagString)
         setPagina(pagString)
         const response = await api.get(`orgaos-siafi?descricao=${descricao}&pagina=${pagString}`);
-
-        await AsyncStorage.setItem('orgao', JSON.stringify(response.data));
-        setOrgaos(response.data)
-
+        const stringResponse = JSON.stringify(response.data);
+        if (stringResponse == '[]') {
+            Alert.alert('Não foram achados outros órgãos!')
+        } else {
+            await AsyncStorage.setItem('orgao', stringResponse);
+            setOrgaos(response.data)
+        }
     }
 
     async function previousPage() {
